@@ -43,6 +43,20 @@ def printMenu():
     print("5- (Requisito 4) Consultar los Top x videos con mas comentarios en un pais con un tag especifico")
     print("0- Salir")
 
+
+def initCatalog():
+    """
+    Inicializa el catalogo de videos
+    """
+    return controller.initCatalog()
+
+
+def loadData(catalog):
+    """
+    Carga los videos en la estructura de datos
+    """
+    controller.loadData(catalog)
+    
 catalog = None
 
 """
@@ -55,8 +69,25 @@ while True:
         print("Cargando información de los archivos ....")
 
     elif int(inputs[0]) == 2:
-        pass
+        
+        number = int(input("Buscando los top: ? "))
+        country = input("Buscando del Pais: ? ")
+        category = input("Buscando en la categoria: ? ")
 
+    elif int(inputs[0]) == 3:
+        
+        country = input("Buscando del Pais: ? ")
+        
+    elif int(inputs[0]) == 4:
+        
+        category = input("Buscando en la categoria: ? ")
+        
+    elif int(inputs[0]) == 5:
+        
+        number = int(input("Buscando los top: ? "))
+        country = input("Buscando del Pais: ? ")
+        tag = input("Buscando el tag: ?")
+        
     else:
         sys.exit(0)
 sys.exit(0)
