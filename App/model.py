@@ -30,7 +30,7 @@ import config as cf
 from DISClib.ADT import list as lt
 from DISClib.ADT import map as mp
 from DISClib.DataStructures import mapentry as me
-from DISClib.Algorithms.Sorting import shellsort as sa
+from DISClib.Algorithms.Sorting import mergesort as ms
 assert cf
 
 """
@@ -104,6 +104,33 @@ def newCategory(name, id):
     return cat
 # Funciones de consulta
 
+def getCategoryid(catalog, category_name):
+    """
+    Devuelve el id de una categoria del catalogo.
+    Args:
+        catalog: catalogo con la lista de videos y la lista de categorias
+        category_name: nombre de la categoria que se consulta
+    """
+    for cat in lt.iterator(catalog['category_names']):
+        if category_name in cat['name']:
+            return cat['id']
+    return "error"
+
+
+def getPrimeraEntrega(catalog, category_name, number):
+    """
+    Retornar la lista de los top n videos con mas comentarios para un nombre de categoria
+    """
+    category_id = int(getCategoryid(catalog, category_name))
+    cat = mp.get(catalog['categoriesIds'],category_id)
+    if cat:
+        sub_list = me.getValue(cat)['videos']
+        sorted_list = sortbyViews(sub_list)
+        top_n = lt.subList(sorted_list, 1, number)
+        return top_n
+    else:
+        return None
+
 # Funciones utilizadas para comparar elementos dentro de una lista
 
 
@@ -119,11 +146,28 @@ def comparecategories(cat1, cat2):
 def compareMapcategories(id, cat):
 
     catentry = me.getKey(cat)
-    if (id == catentry):
+    if (int(id) == int(catentry)):
         return 0
-    elif (id > catentry):
+    elif (int(id) > int(catentry)):
         return 1
     else:
         return -1
 
+
+def cmpVideosByViews(video1, video2):
+    """
+    Devuelve verdadero (True) si los likes de video1 son menores que los del video2
+    Args:
+        video1: informacion del primer video que incluye su valor 'likes'
+        video2: informacion del segundo video que incluye su valor 'likes'
+    """
+    return (int(video1['views']) > int(video2['views']))
+
 # Funciones de ordenamiento
+
+
+def sortbyViews(lst):
+    sub_list = lst.copy()
+    sorted = ms.sort(sub_list, cmpVideosByViews)
+    
+    return sorted

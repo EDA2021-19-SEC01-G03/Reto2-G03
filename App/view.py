@@ -24,6 +24,7 @@ import config as cf
 import sys
 import controller
 from DISClib.ADT import list as lt
+from DISClib.ADT import map as mp
 assert cf
 
 
@@ -42,6 +43,7 @@ def printMenu():
     print("3- (Requisito 2) Consultar video con mas dias en trending para un país especifico con recepción altamente positiva")
     print("4- (Requisito 3) Consultar video con mas dias en trending para una categoría especifica con recepción sumamente positiva")
     print("5- (Requisito 4) Consultar los Top x videos con mas comentarios en un pais con un tag especifico")
+    print("6- (Requisito primera entrega) Consultar los n videos con más views para el nombre de una categoría especifica")
     print("0- Salir")
 
 
@@ -59,6 +61,23 @@ def loadData(catalog):
     controller.loadData(catalog)
 
 
+def printCategoryList(catalog):
+    """
+    Imprime los nombres de las categorias cargadas
+    """
+    size = lt.size(catalog['category_names'])
+    for i in range(1, size+1):
+        element = lt.getElement(catalog['category_names'], i)
+        print(element['name'])
+
+
+def printPrimeraEntrega(lst):
+    for video in lt.iterator(lst):
+        print("trending_date: "+ str(video['trending_date'])+ ' title: '+ str(video['title']) + 
+              ' channel_title: '+ str(video['channel_title'])+ ' publish_time: '+ str(video['publish_time'])
+              + ' views: '+ str(video['views']) + ' likes: ' + str(video['likes'])+ ' dislikes: ' + str(video['dislikes']))
+
+
 catalog = None
 
 """
@@ -73,8 +92,7 @@ while True:
 
         loadData(catalog)
         print('Videos cargados: ' + str(lt.size(catalog['videos'])))
-        id_categories = catalog['categoriesIds']
-        print(id_categories)
+        printCategoryList(catalog)
 
     elif int(inputs[0]) == 2:
 
@@ -95,6 +113,13 @@ while True:
         number = int(input("Buscando los top: ? "))
         country = input("Buscando del Pais: ? ")
         tag = input("Buscando el tag: ?")
+        
+    elif int(inputs[0]) == 6:
+        number = int(input("Buscando los top: ? "))
+        category_name = input("Buscando en la categoria: ? ")
+        
+        PrimeraEntrega = controller.getPrimeraEntrega(catalog, category_name, number)
+        printPrimeraEntrega(PrimeraEntrega)
 
     else:
         sys.exit(0)
