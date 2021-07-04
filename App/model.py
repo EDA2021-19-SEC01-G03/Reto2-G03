@@ -65,6 +65,11 @@ def addCategory(catalog, cat):
 
 
 def addVideoCategory(catalog, video):
+    """
+    Añade un video al indice de categorias.
+    La llave de cada pareja es el id de la categoria que esta guardada como un int
+    El valor es una lista con los videos de la categoria de la llave
+    """
 
     try:
         categoryMap = catalog['categoriesIds']
