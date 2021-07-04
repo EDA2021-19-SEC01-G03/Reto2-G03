@@ -113,11 +113,11 @@ while True:
         number = int(input("Buscando los top: ? "))
         country = input("Buscando del Pais: ? ")
         tag = input("Buscando el tag: ?")
-        
+
     elif int(inputs[0]) == 6:
         number = int(input("Buscando los top: ? "))
         category_name = input("Buscando en la categoria: ? ")
-        
+
         PrimeraEntrega = controller.getPrimeraEntrega(catalog, category_name, number)
         printPrimeraEntrega(PrimeraEntrega)
 

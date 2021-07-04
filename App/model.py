@@ -109,6 +109,7 @@ def newCategory(name, id):
     return cat
 # Funciones de consulta
 
+
 def getCategoryid(catalog, category_name):
     """
     Devuelve el id de una categoria del catalogo.
@@ -174,5 +175,5 @@ def cmpVideosByViews(video1, video2):
 def sortbyViews(lst):
     sub_list = lst.copy()
     sorted = ms.sort(sub_list, cmpVideosByViews)
-    
+
     return sorted

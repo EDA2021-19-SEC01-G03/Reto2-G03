@@ -72,5 +72,5 @@ def loadCategory(catalog):
 # Funciones de consulta sobre el catálogo
 
 def getPrimeraEntrega(catalog, category_name, number):
-    
+
     return model.getPrimeraEntrega(catalog, category_name, number)
