@@ -47,18 +47,18 @@ def printMenu():
     print("0- Salir")
 
 
-def initCatalog():
+def initCatalog(map, lf):
     """
     Inicializa el catalogo de videos
     """
-    return controller.initCatalog()
+    return controller.initCatalog(map, lf)
 
 
 def loadData(catalog):
     """
     Carga los videos en la estructura de datos
     """
-    controller.loadData(catalog)
+    return controller.loadData(catalog)
 
 
 def printCategoryList(catalog):
@@ -69,6 +69,12 @@ def printCategoryList(catalog):
     for i in range(1, size+1):
         element = lt.getElement(catalog['category_names'], i)
         print(element['name'])
+
+
+def printMenu1():
+    print("Menu carga de información al catalogo")
+    print("1- Cargar MAP como 'PROBING' (factor de carga debe estar entre 0.3 a 0.8)")
+    print("2- Cargar MAP como 'CHAINING' (factor de carga debe estar entre 2.0 y 4.0)")
 
 
 def printPrimeraEntrega(lst):
@@ -87,12 +93,21 @@ while True:
     printMenu()
     inputs = input('Seleccione una opción para continuar\n')
     if int(inputs[0]) == 1:
+        
+        printMenu1()
+        mapint = int(input("¿Como desea cargar el MAP?\n"))
+        lf = float(input("¿Cual es el factor de carga que va a usar?\n"))
+        if mapint == 1:
+            map = "PROBING"
+        elif mapint == 2:
+            map = "CHAINING"
         print("Cargando información de los archivos ....")
-        catalog = initCatalog()
+        catalog = initCatalog(map, lf)
 
-        loadData(catalog)
+        prueba = loadData(catalog)
         print('Videos cargados: ' + str(lt.size(catalog['videos'])))
         printCategoryList(catalog)
+        print("Tiempo [ms]: ", f"{prueba[0]:.3f}", "    ||  ", "Memoria [kB]: ", f"{prueba[1]:.3f}")
 
     elif int(inputs[0]) == 2:
 

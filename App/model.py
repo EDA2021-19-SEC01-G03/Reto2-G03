@@ -41,10 +41,10 @@ los mismos.
 # Construccion de modelos
 
 
-def newCatalog():
+def newCatalog(map, lf):
     catalog = {'videos': None, 'category_names': None, 'categoriesIds': None}
 
-    catalog['categoriesIds'] = mp.newMap(211, maptype='PROBING', loadfactor=0.5, comparefunction=compareMapcategories)
+    catalog['categoriesIds'] = mp.newMap(211, maptype=map, loadfactor=lf, comparefunction=compareMapcategories)
     catalog['videos'] = lt.newList('ARRAY_LIST')
     catalog['category_names'] = lt.newList('ARRAY_LIST')
 
