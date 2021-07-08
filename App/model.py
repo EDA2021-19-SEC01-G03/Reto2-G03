@@ -190,6 +190,49 @@ def getPrimeraEntrega(catalog, category_name, number):
         return None
 
 
+def getReq1(catalog, category_name, country, number):
+    category_id = getCategoryid(catalog, category_name)
+    sub_list2 = lt.newList('ARRAY_LIST')
+    country_ind = mp.get(catalog['countryMap'], country)
+    if country_ind:
+        sub_list1 = me.getValue(country_ind)['videos']
+        for video in lt.iterator(sub_list1):
+            if video['category_id'] == category_id:
+                lt.addLast(sub_list2, video)
+    sorted_list = sortbyLikes(sub_list2)
+    top_n = lt.subList(sorted_list, 1, number)
+    return top_n
+
+
+def getReq2(catalog, country):
+    country_ind = mp.get(catalog['countryMap'], country)
+    if country_ind:
+        videos = me.getValue(country_ind)['videos']
+        sub_list = lt.newList("ARRAY_LIST")
+        for video in lt.iterator(videos):
+            if like_ratioCond(video, 10) == True:
+                lt.addLast(sub_list, video)
+        sorted_list = sortbyid(sub_list)
+        print(lt.size(sorted_list))
+        top_video = lt.firstElement(sorted_list)
+        compare = top_video['video_id']
+        max_days = 0
+        days = 0
+        
+        for video in lt.iterator(sorted_list):
+            if video['video_id'] != compare:
+                days = 1
+                compare = video['video_id']
+            else:
+                days += 1
+            if days > max_days:
+                top_video = video
+                max_days = days
+        return top_video, max_days
+    else:
+        return None
+
+
 def getReq3(catalog, category_name):
 
     category_id = int(getCategoryid(catalog, category_name))
@@ -325,6 +368,19 @@ def cmpVideosbyName(video1, video2):
     return (video1['title'] > video2['title'])
 
 
+
+def cmpVideosByLikes(video1, video2):
+    """
+    Devuelve verdadero (True) si los likes de video1 son menores que los del video2
+    Args:
+        video1: informacion del primer video que incluye su valor 'likes'
+        video2: informacion del segundo video que incluye su valor 'likes'
+    """
+    return (int(video1['likes']) > int(video2['likes']))
+
+
+def cmpVideosByid(video1, video2):
+    return (video1['video_id']> video2['video_id'])
 # Funciones de ordenamiento
 
 
@@ -347,4 +403,18 @@ def sortbyName(lst):
     sub_list = lst.copy()
     sorted = ms.sort(sub_list, cmpVideosbyName)
 
+    return sorted
+
+
+def sortbyLikes(lst):
+    sub_list = lst.copy()
+    sorted = ms.sort(sub_list, cmpVideosByLikes)
+  
+    return sorted
+
+
+def sortbyid(lst):
+    sub_list = lst.copy()
+    sorted = ms.sort(sub_list, cmpVideosByid)
+    
     return sorted

@@ -94,6 +94,48 @@ def getPrimeraEntrega(catalog, category_name, number):
     return model.getPrimeraEntrega(catalog, category_name, number)
 
 
+def getReq1(catalog, category_name, country, number):
+    
+    delta_time = -1.0
+    delta_memory = -1.0
+    
+    tracemalloc.start()
+    start_time = getTime()
+    start_memory = getMemory()
+    
+    retorno = model.getReq1(catalog, category_name, country, number)
+    
+    stop_memory = getMemory()
+    stop_time = getTime()
+    tracemalloc.stop()
+    
+    delta_time = stop_time - start_time
+    delta_memory = deltaMemory(start_memory, stop_memory)
+    
+    return retorno, delta_time, delta_memory
+
+
+def getReq2(catalog, country):
+    
+    delta_time = -1.0
+    delta_memory = -1.0
+    
+    tracemalloc.start()
+    start_time = getTime()
+    start_memory = getMemory()
+    
+    retorno = model.getReq2(catalog, country)
+    
+    stop_memory = getMemory()
+    stop_time = getTime()
+    tracemalloc.stop()
+    
+    delta_time = stop_time - start_time
+    delta_memory = deltaMemory(start_memory, stop_memory)
+    
+    return retorno, delta_time, delta_memory
+
+
 def getReq3(catalog, category_name):
 
     return model.getReq3(catalog, category_name)

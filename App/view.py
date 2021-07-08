@@ -84,6 +84,24 @@ def printPrimeraEntrega(lst):
               + ' views: '+ str(video['views']) + ' likes: ' + str(video['likes'])+ ' dislikes: ' + str(video['dislikes']))
 
 
+def printReq1(lst):
+    for video in lt.iterator(lst):
+        print("trending_date: "+ str(video['trending_date'])+ ' title: '+ str(video['title']) + 
+              ' channel_title: '+ str(video['channel_title'])+ ' publish_time: '+ str(video['publish_time'])
+              + ' views: '+ str(video['views']) + ' likes: ' + str(video['likes'])+ ' dislikes: ' + str(video['dislikes']))
+
+
+def printReq2(video, max):
+    title = "title: " + str(video['title'])
+    channel_title = " channel_title: " + str(video['channel_title'])
+    country = " country: " + str(video['country'])
+    ratio = int(video['likes'])/int(video['dislikes'])
+    ratio_likes_dislikes = " ratio_likes_dislikes: " + str(ratio)
+    dias = " Días: " + str(max)
+    
+    print(title + channel_title + country + ratio_likes_dislikes + dias)
+
+
 def printReq3(tuple): 
     video = tuple[0]
     days = tuple[1]
@@ -137,10 +155,18 @@ while True:
         number = int(input("Buscando los top: ? "))
         country = input("Buscando del Pais: ? ")
         category = input("Buscando en la categoria: ? ")
+        
+        Req1 = controller.getReq1(catalog, category, country, number)
+        printReq1(Req1[0])
+        print("Tiempo [ms]: ", f"{Req1[1]:.3f}", "    ||  ", "Memoria [kB]: ", f"{Req1[2]:.3f}")
 
     elif int(inputs[0]) == 3:
 
         country = input("Buscando del Pais: ? ")
+        
+        Req2 = controller.getReq2(catalog, country)
+        printReq2(Req2[0][0], Req2[0][1])
+        print("Tiempo [ms]: ", f"{Req2[1]:.3f}", "    ||  ", "Memoria [kB]: ", f"{Req2[2]:.3f}")
 
     elif int(inputs[0]) == 4:
 
