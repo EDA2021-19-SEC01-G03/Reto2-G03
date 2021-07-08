@@ -70,6 +70,7 @@ def loadVideos(catalog):
     for video in input_file:
         model.addVideo(catalog, video)
         model.addVideoCategory(catalog, video)
+        model.addVideoCountry(catalog, video)
 
 
 def loadCategory(catalog):
@@ -92,7 +93,18 @@ def getPrimeraEntrega(catalog, category_name, number):
 
     return model.getPrimeraEntrega(catalog, category_name, number)
 
+
+def getReq3(catalog, category_name):
+
+    return model.getReq3(catalog, category_name)
+
+
+def getReq4(catalog, country, tag, number):
+
+    return model.getReq4(catalog, country, tag, number)
+
 # Funciones para medir tiempo y memoria
+
 
 def getTime():
     """

@@ -84,6 +84,29 @@ def printPrimeraEntrega(lst):
               + ' views: '+ str(video['views']) + ' likes: ' + str(video['likes'])+ ' dislikes: ' + str(video['dislikes']))
 
 
+def printReq3(tuple): 
+    video = tuple[0]
+    days = tuple[1]
+
+    ratio = 0 
+    if video['dislikes'] == 0: 
+        ratio = "No tiene dislikes"
+    else: 
+        ratio = (int(video['likes'])) / (int(video ['dislikes']))
+    print("Title: " + str(video['title']) + ' channel_title: ' + str(video['channel_title']) + ' category_id: ' + str(video['category_id']) + ' ratio_likes_dislikes: ' +  str(ratio) + ' days: ' + str(days)) 
+
+def printReq4(lst): 
+
+    for video in lt.iterator(lst):
+        print(' title: ' + str(video ['title']) + ' channel_title: ' + str(video['channel_title']) +
+                ' publish_time: ' + str(video['publish_time']) + ' views: ' + str(video['views']) + 
+                ' likes: ' + str(video['likes']) + ' dislikes: ' + str(video['dislikes']) + 
+                'comment_count: ' + str(video['comment_count']) + 'tags: ' + str(video['tags']))
+
+
+            
+
+
 catalog = None
 
 """
@@ -107,7 +130,7 @@ while True:
         prueba = loadData(catalog)
         print('Videos cargados: ' + str(lt.size(catalog['videos'])))
         printCategoryList(catalog)
-        print("Tiempo [ms]: ", f"{prueba[0]:.3f}", "    ||  ", "Memoria [kB]: ", f"{prueba[1]:.3f}")
+        print("Tiempo [ms]: ", f"{prueba[0]:.3f}", "    ||  ", "Memoria [kB]: ", f"{prueba[1]:.3f}")       
 
     elif int(inputs[0]) == 2:
 
@@ -123,11 +146,19 @@ while True:
 
         category = input("Buscando en la categoria: ? ")
 
+        Req3 = controller.getReq3(catalog, category)
+
+        printReq3(Req3)
+
     elif int(inputs[0]) == 5:
 
         number = int(input("Buscando los top: ? "))
         country = input("Buscando del Pais: ? ")
         tag = input("Buscando el tag: ?")
+
+        Req4 = controller.getReq4(catalog, country, tag, number)
+        
+        result = printReq4(Req4)
 
     elif int(inputs[0]) == 6:
         number = int(input("Buscando los top: ? "))
