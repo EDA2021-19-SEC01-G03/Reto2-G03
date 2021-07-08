@@ -215,7 +215,7 @@ def getReq3(catalog, category_name):
 
         days = 0
         max = 0
-        pos = 0
+        pos = 1
         
         for video in lt.iterator(sort_list_name):  #N
 
