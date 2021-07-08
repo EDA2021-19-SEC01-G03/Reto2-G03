@@ -211,7 +211,7 @@ def getReq3(catalog, category_name):
         # N log N
         
         compare = lt.firstElement(sort_list_name)['title']
-        name_max = lt.firstElement(sort_list_name)['title']
+        name_max = lt.firstElement(sort_list_name)
 
         days = 0
         max = 0
@@ -233,7 +233,7 @@ def getReq3(catalog, category_name):
 
             pos += 1
             ######
-        return name_max, max  
+        return name_max, max
     else:
         return None
 
