@@ -158,7 +158,9 @@ while True:
         
         Req1 = controller.getReq1(catalog, category, country, number)
         printReq1(Req1[0])
+        print("\n")
         print("Tiempo [ms]: ", f"{Req1[1]:.3f}", "    ||  ", "Memoria [kB]: ", f"{Req1[2]:.3f}")
+        print("\n")
 
     elif int(inputs[0]) == 3:
 
@@ -166,7 +168,9 @@ while True:
         
         Req2 = controller.getReq2(catalog, country)
         printReq2(Req2[0][0], Req2[0][1])
+        print("\n")
         print("Tiempo [ms]: ", f"{Req2[1]:.3f}", "    ||  ", "Memoria [kB]: ", f"{Req2[2]:.3f}")
+        print("\n")
 
     elif int(inputs[0]) == 4:
 
@@ -174,7 +178,10 @@ while True:
 
         Req3 = controller.getReq3(catalog, category)
 
-        printReq3(Req3)
+        printReq3(Req3[0])
+        print("\n")
+        print("Tiempo [ms]: ", f"{Req3[1]:.3f}", "    ||  ", "Memoria [kB]: ", f"{Req3[2]:.3f}")
+        print("\n")
 
     elif int(inputs[0]) == 5:
 
@@ -184,7 +191,10 @@ while True:
 
         Req4 = controller.getReq4(catalog, country, tag, number)
         
-        result = printReq4(Req4)
+        printReq4(Req4[0])
+        print("\n")
+        print("Tiempo [ms]: ", f"{Req4[1]:.3f}", "    ||  ", "Memoria [kB]: ", f"{Req4[2]:.3f}")
+        print("\n")
 
     elif int(inputs[0]) == 6:
         number = int(input("Buscando los top: ? "))
