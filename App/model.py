@@ -213,7 +213,6 @@ def getReq2(catalog, country):
             if like_ratioCond(video, 10) == True:
                 lt.addLast(sub_list, video)
         sorted_list = sortbyid(sub_list)
-        print(lt.size(sorted_list))
         top_video = lt.firstElement(sorted_list)
         compare = top_video['video_id']
         max_days = 0
@@ -381,6 +380,8 @@ def cmpVideosByLikes(video1, video2):
 
 def cmpVideosByid(video1, video2):
     return (video1['video_id']> video2['video_id'])
+
+
 # Funciones de ordenamiento
 
 
