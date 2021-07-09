@@ -74,7 +74,7 @@ def printCategoryList(catalog):
 def printMenu1():
     print("Menu carga de información al catalogo")
     print("1- Cargar MAP como 'PROBING' (factor de carga debe estar entre 0.3 a 0.8)")
-    print("2- Cargar MAP como 'CHAINING' (factor de carga debe estar entre 2.0 y 4.0)")
+    print("2- Cargar MAP como 'CHAINING' (factor de carga debe estar entre 2.0 y 6.0)")
 
 
 def printPrimeraEntrega(lst):
