@@ -42,13 +42,14 @@ los mismos.
 
 
 def newCatalog(map, lf):
-    catalog = {'videos': None, 'category_names': None, 'categoriesIds': None, 'countryMap': None }
+    catalog = {'videos': None, 'category_names': None, 'categoriesIds': None, 'countryMap': None, 'titleMap': None, 'titles': None  }
 
     catalog['categoriesIds'] = mp.newMap(67, maptype=map, loadfactor=lf, comparefunction=compareMapcategories)
     catalog['videos'] = lt.newList('ARRAY_LIST')
     catalog['category_names'] = lt.newList('ARRAY_LIST')
-
     catalog['countryMap'] = mp.newMap(29, maptype=map, loadfactor=lf, comparefunction=compareMapcountry)
+    catalog['titleMap'] = mp.newMap(211, maptype=map, loadfactor=lf, comparefunction=compareMaptitle)
+    catalog['titles'] = lt.newList('ARRAY_LIST')
 
     return catalog
 # Funciones para agregar informacion al catalogo
@@ -74,6 +75,7 @@ def addVideoCategory(catalog, video):
     """
 
     try:
+        
         categoryMap = catalog['categoriesIds']
 
         categoryidKey = video['category_id']
@@ -114,6 +116,27 @@ def addVideoCountry(catalog, video):
         return None
 
 
+def addVideoTitle(catalog, video):
+    try:
+        if like_ratioCond(video, 20): 
+            videoMap = catalog['titleMap']
+
+            videoKey = video['title']
+            
+            videoExist = mp.contains(videoMap, videoKey)
+
+            if videoExist:
+                entry_videos = mp.get(videoMap, videoKey)
+                title_videos = me.getValue(entry_videos)
+            else:
+                title_videos = newVideoTitle(videoKey)
+                mp.put(videoMap, videoKey, title_videos)
+                lt.addLast(catalog['titles'], videoKey)
+            lt.addLast(title_videos['videos'], video)
+    except Exception:
+        return None
+
+
 # Funciones para creacion de datos
 
 
@@ -139,6 +162,14 @@ def newCategory(name, id):
     cat['name'] = name
     cat['id'] = id
     return cat
+
+def newVideoTitle(title): 
+
+    video = {'title': '', 'videos': None}
+    video['title'] = title
+    video['videos'] = lt.newList('ARRAY_LIST', compareTitles)
+    return video
+
 
 # Funciones de consulta
 
@@ -234,6 +265,26 @@ def getReq2(catalog, country):
 
 def getReq3(catalog, category_name):
 
+    max = 1
+    category_id = int(getCategoryid(catalog, category_name))
+
+    for vid in lt.iterator(catalog['titles']):
+
+        elem = mp.get(catalog['titleMap'], vid)
+        videos = me.getValue(elem)['videos']
+        first = lt.firstElement(videos)
+
+        if str(first['category_id']) == str(category_id):
+
+            size = lt.size(videos)
+
+            if size >= max:
+                max = size
+                max_element = first
+
+    return max_element, max
+
+    """
     category_id = int(getCategoryid(catalog, category_name))
 
     cat = mp.get(catalog['categoriesIds'], category_id)
@@ -275,9 +326,9 @@ def getReq3(catalog, category_name):
 
             pos += 1
             ######
-        return name_max, max
+        return name_max, max 
     else:
-        return None
+        return None"""
 
 
 def getReq4(catalog, country, tag, number):
@@ -300,12 +351,15 @@ def getReq4(catalog, country, tag, number):
         final = lt.newList("ARRAYLIST")
 
         for elem in lt.iterator(sort_videos): 
-            if (elem['title'] not in names): 
+
+            if (lt.size(final) == number):
+                break
+
+            elif (elem['title'] not in names): 
                 lt.addLast(final, elem)
                 names.append(elem['title'])
 
-        top_n = lt.subList(final, 1, number)
-        return top_n
+        return final
     else: 
         return None
 
@@ -319,6 +373,7 @@ def comparecategories(cat1, cat2):
     elif (cat1 > cat2):
         return 1
     else:
+
         return 0
 
 
@@ -329,6 +384,16 @@ def compareCountry(nam1, nam2):
         return 1
     else:
         return 0
+
+
+def compareTitles(nam1, nam2): 
+    if (nam1 == nam2):
+        return 0
+    elif (nam1 > nam2):
+        return 1
+    else:
+        return 0
+
 
 
 def compareMapcategories(id, cat):
@@ -348,6 +413,17 @@ def compareMapcountry(name, country):
     if (name == counentry):
         return 0
     elif (name > counentry):
+        return 1
+    else:
+        return -1
+
+
+def compareMaptitle(name, title):
+
+    titleEntry = me.getKey(title)
+    if (name == titleEntry):
+        return 0
+    elif (name > titleEntry):
         return 1
     else:
         return -1
