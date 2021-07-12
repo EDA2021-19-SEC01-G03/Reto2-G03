@@ -71,12 +71,6 @@ def printCategoryList(catalog):
         print(element['name'])
 
 
-def printMenu1():
-    print("Menu carga de información al catalogo")
-    print("1- Cargar MAP como 'PROBING' (factor de carga debe estar entre 0.3 a 0.8)")
-    print("2- Cargar MAP como 'CHAINING' (factor de carga debe estar entre 2.0 y 4.0)")
-
-
 def printPrimeraEntrega(lst):
     for video in lt.iterator(lst):
         print("trending_date: "+ str(video['trending_date'])+ ' title: '+ str(video['title']) + 
@@ -134,14 +128,9 @@ while True:
     printMenu()
     inputs = input('Seleccione una opción para continuar\n')
     if int(inputs[0]) == 1:
-        
-        printMenu1()
-        mapint = int(input("¿Como desea cargar el MAP?\n"))
-        lf = float(input("¿Cual es el factor de carga que va a usar?\n"))
-        if mapint == 1:
-            map = "PROBING"
-        elif mapint == 2:
-            map = "CHAINING"
+
+        map = 'PROBING'
+        lf = 0.8
         print("Cargando información de los archivos ....")
         catalog = initCatalog(map, lf)
 

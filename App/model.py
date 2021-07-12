@@ -44,11 +44,11 @@ los mismos.
 def newCatalog(map, lf):
     catalog = {'videos': None, 'category_names': None, 'categoriesIds': None, 'countryMap': None }
 
-    catalog['categoriesIds'] = mp.newMap(211, maptype=map, loadfactor=lf, comparefunction=compareMapcategories)
+    catalog['categoriesIds'] = mp.newMap(67, maptype=map, loadfactor=lf, comparefunction=compareMapcategories)
     catalog['videos'] = lt.newList('ARRAY_LIST')
     catalog['category_names'] = lt.newList('ARRAY_LIST')
 
-    catalog['countryMap'] = mp.newMap(211, maptype=map, loadfactor=lf, comparefunction=compareMapcountry)
+    catalog['countryMap'] = mp.newMap(29, maptype=map, loadfactor=lf, comparefunction=compareMapcountry)
 
     return catalog
 # Funciones para agregar informacion al catalogo
