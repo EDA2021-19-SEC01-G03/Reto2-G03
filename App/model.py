@@ -287,19 +287,24 @@ def getReq4(catalog, country, tag, number):
     if country_pair:
         videos = me.getValue(country_pair)['videos']
 
-        sort_videos = sortbyComm(videos)
-
         sublist = lt.newList("ARRAY_LIST")
-        names = []
         
-        for elem in lt.iterator(sort_videos):
+        for elem in lt.iterator(videos):
 
-            if (tag.lower() in str(elem['tags'].lower()) and (elem['title'] not in names)):
+            if tag.lower() in str(elem['tags'].lower()):
 
                 lt.addLast(sublist, elem)
+
+        sort_videos = sortbyComm(sublist)
+        names = []
+        final = lt.newList("ARRAYLIST")
+
+        for elem in lt.iterator(sort_videos): 
+            if (elem['title'] not in names): 
+                lt.addLast(final, elem)
                 names.append(elem['title'])
 
-        top_n = lt.subList(sublist, 1, number)
+        top_n = lt.subList(final, 1, number)
         return top_n
     else: 
         return None
