@@ -42,10 +42,9 @@ los mismos.
 
 
 def newCatalog(map, lf):
-    catalog = {'videos': None, 'category_names': None, 'categoriesIds': None, 'countryMap': None, 'titleMap': None, 'titles': None  }
+    catalog = {'category_names': None, 'categoriesIds': None, 'countryMap': None, 'titleMap': None, 'titles': None  }
 
     catalog['categoriesIds'] = mp.newMap(67, maptype=map, loadfactor=lf, comparefunction=compareMapcategories)
-    catalog['videos'] = lt.newList('ARRAY_LIST')
     catalog['category_names'] = lt.newList('ARRAY_LIST')
     catalog['countryMap'] = mp.newMap(29, maptype=map, loadfactor=lf, comparefunction=compareMapcountry)
     catalog['titleMap'] = mp.newMap(96581, maptype=map, loadfactor=lf, comparefunction=compareMaptitle)
@@ -206,21 +205,6 @@ def like_ratioCond(video, number):
         return True
 
 
-def getPrimeraEntrega(catalog, category_name, number):
-    """
-    Retornar la lista de los top n videos con mas comentarios para un nombre de categoria
-    """
-    category_id = int(getCategoryid(catalog, category_name))
-    cat = mp.get(catalog['categoriesIds'],category_id)
-    if cat:
-        sub_list = me.getValue(cat)['videos']
-        sorted_list = sortbyViews(sub_list)
-        top_n = lt.subList(sorted_list, 1, number)
-        return top_n
-    else:
-        return None
-
-
 def getReq1(catalog, category_name, country, number):
     category_id = getCategoryid(catalog, category_name)
     sub_list2 = lt.newList('ARRAY_LIST')
@@ -331,7 +315,7 @@ def getReq3(catalog, category_name):
                 days = 1
 
             pos += 1
-            ######
+        
         return name_max, max 
     else:
         return None"""

@@ -43,7 +43,6 @@ def printMenu():
     print("3- (Requisito 2) Consultar video con mas dias en trending para un país especifico con recepción altamente positiva")
     print("4- (Requisito 3) Consultar video con mas dias en trending para una categoría especifica con recepción sumamente positiva")
     print("5- (Requisito 4) Consultar los Top x videos con mas comentarios en un pais con un tag especifico")
-    print("6- (Requisito primera entrega) Consultar los n videos con más views para el nombre de una categoría especifica")
     print("0- Salir")
 
 
@@ -69,13 +68,6 @@ def printCategoryList(catalog):
     for i in range(1, size+1):
         element = lt.getElement(catalog['category_names'], i)
         print(element['name'])
-
-
-def printPrimeraEntrega(lst):
-    for video in lt.iterator(lst):
-        print("trending_date: "+ str(video['trending_date'])+ ' title: '+ str(video['title']) + 
-              ' channel_title: '+ str(video['channel_title'])+ ' publish_time: '+ str(video['publish_time'])
-              + ' views: '+ str(video['views']) + ' likes: ' + str(video['likes'])+ ' dislikes: ' + str(video['dislikes']))
 
 
 def printReq1(lst):
@@ -116,9 +108,6 @@ def printReq4(lst):
                 'comment_count: ' + str(video['comment_count']) + 'tags: ' + str(video['tags']))
 
 
-            
-
-
 catalog = None
 
 """
@@ -135,7 +124,7 @@ while True:
         catalog = initCatalog(map, lf)
 
         prueba = loadData(catalog)
-        print('Videos cargados: ' + str(lt.size(catalog['videos'])))
+        print('Videos cargados: ' + str(prueba[2]))
         printCategoryList(catalog)
         print("Tiempo [ms]: ", f"{prueba[0]:.3f}", "    ||  ", "Memoria [kB]: ", f"{prueba[1]:.3f}")   
 
@@ -184,13 +173,6 @@ while True:
         print("\n")
         print("Tiempo [ms]: ", f"{Req4[1]:.3f}", "    ||  ", "Memoria [kB]: ", f"{Req4[2]:.3f}")
         print("\n")
-
-    elif int(inputs[0]) == 6:
-        number = int(input("Buscando los top: ? "))
-        category_name = input("Buscando en la categoria: ? ")
-
-        PrimeraEntrega = controller.getPrimeraEntrega(catalog, category_name, number)
-        printPrimeraEntrega(PrimeraEntrega)
 
     else:
         sys.exit(0)
