@@ -48,7 +48,7 @@ def newCatalog(map, lf):
     catalog['videos'] = lt.newList('ARRAY_LIST')
     catalog['category_names'] = lt.newList('ARRAY_LIST')
     catalog['countryMap'] = mp.newMap(29, maptype=map, loadfactor=lf, comparefunction=compareMapcountry)
-    catalog['titleMap'] = mp.newMap(211, maptype=map, loadfactor=lf, comparefunction=compareMaptitle)
+    catalog['titleMap'] = mp.newMap(96581, maptype=map, loadfactor=lf, comparefunction=compareMaptitle)
     catalog['titles'] = lt.newList('ARRAY_LIST')
 
     return catalog
@@ -264,6 +264,9 @@ def getReq2(catalog, country):
 
 
 def getReq3(catalog, category_name):
+    """
+    Implementación con complejidad O(N)
+    """
 
     max = 1
     category_id = int(getCategoryid(catalog, category_name))
@@ -284,6 +287,9 @@ def getReq3(catalog, category_name):
 
     return max_element, max
 
+    """
+    Implemantación con complejidad O(N log N): 
+    """
     """
     category_id = int(getCategoryid(catalog, category_name))
 
