@@ -43,7 +43,6 @@ def printMenu():
     print("3- (Requisito 2) Consultar video con mas dias en trending para un país especifico con recepción altamente positiva")
     print("4- (Requisito 3) Consultar video con mas dias en trending para una categoría especifica con recepción sumamente positiva")
     print("5- (Requisito 4) Consultar los Top x videos con mas comentarios en un pais con un tag especifico")
-    print("6- (Requisito primera entrega) Consultar los n videos con más views para el nombre de una categoría especifica")
     print("0- Salir")
 
 
@@ -71,17 +70,42 @@ def printCategoryList(catalog):
         print(element['name'])
 
 
-def printMenu1():
-    print("Menu carga de información al catalogo")
-    print("1- Cargar MAP como 'PROBING' (factor de carga debe estar entre 0.3 a 0.8)")
-    print("2- Cargar MAP como 'CHAINING' (factor de carga debe estar entre 2.0 y 6.0)")
-
-
-def printPrimeraEntrega(lst):
+def printReq1(lst):
     for video in lt.iterator(lst):
         print("trending_date: "+ str(video['trending_date'])+ ' title: '+ str(video['title']) + 
               ' channel_title: '+ str(video['channel_title'])+ ' publish_time: '+ str(video['publish_time'])
               + ' views: '+ str(video['views']) + ' likes: ' + str(video['likes'])+ ' dislikes: ' + str(video['dislikes']))
+
+
+def printReq2(video, max):
+    title = "title: " + str(video['title'])
+    channel_title = " channel_title: " + str(video['channel_title'])
+    country = " country: " + str(video['country'])
+    ratio = int(video['likes'])/int(video['dislikes'])
+    ratio_likes_dislikes = " ratio_likes_dislikes: " + str(ratio)
+    dias = " Días: " + str(max)
+    
+    print(title + channel_title + country + ratio_likes_dislikes + dias)
+
+
+def printReq3(tuple): 
+    video = tuple[0]
+    days = tuple[1]
+
+    ratio = 0 
+    if video['dislikes'] == 0: 
+        ratio = "No tiene dislikes"
+    else: 
+        ratio = (int(video['likes'])) / (int(video ['dislikes']))
+    print("Title: " + str(video['title']) + ' channel_title: ' + str(video['channel_title']) + ' category_id: ' + str(video['category_id']) + ' ratio_likes_dislikes: ' +  str(ratio) + ' days: ' + str(days)) 
+
+def printReq4(lst): 
+
+    for video in lt.iterator(lst):
+        print(' title: ' + str(video ['title']) + ' channel_title: ' + str(video['channel_title']) +
+                ' publish_time: ' + str(video['publish_time']) + ' views: ' + str(video['views']) + 
+                ' likes: ' + str(video['likes']) + ' dislikes: ' + str(video['dislikes']) + 
+                'comment_count: ' + str(video['comment_count']) + 'tags: ' + str(video['tags']))
 
 
 catalog = None
@@ -93,35 +117,50 @@ while True:
     printMenu()
     inputs = input('Seleccione una opción para continuar\n')
     if int(inputs[0]) == 1:
-        
-        printMenu1()
-        mapint = int(input("¿Como desea cargar el MAP?\n"))
-        lf = float(input("¿Cual es el factor de carga que va a usar?\n"))
-        if mapint == 1:
-            map = "PROBING"
-        elif mapint == 2:
-            map = "CHAINING"
+
+        map = 'PROBING'
+        lf = 0.8
         print("Cargando información de los archivos ....")
         catalog = initCatalog(map, lf)
 
         prueba = loadData(catalog)
-        print('Videos cargados: ' + str(lt.size(catalog['videos'])))
+        print('Videos cargados: ' + str(prueba[2]))
         printCategoryList(catalog)
-        print("Tiempo [ms]: ", f"{prueba[0]:.3f}", "    ||  ", "Memoria [kB]: ", f"{prueba[1]:.3f}")
+        print('Total de categorias cargadas: '+ str(lt.size(catalog['category_names'])))
+        print("Tiempo [ms]: ", f"{prueba[0]:.3f}", "    ||  ", "Memoria [kB]: ", f"{prueba[1]:.3f}")   
 
     elif int(inputs[0]) == 2:
 
         number = int(input("Buscando los top: ? "))
         country = input("Buscando del Pais: ? ")
         category = input("Buscando en la categoria: ? ")
+        
+        Req1 = controller.getReq1(catalog, category, country, number)
+        printReq1(Req1[0])
+        print("\n")
+        print("Tiempo [ms]: ", f"{Req1[1]:.3f}", "    ||  ", "Memoria [kB]: ", f"{Req1[2]:.3f}")
+        print("\n")
 
     elif int(inputs[0]) == 3:
 
         country = input("Buscando del Pais: ? ")
+        
+        Req2 = controller.getReq2(catalog, country)
+        printReq2(Req2[0][0], Req2[0][1])
+        print("\n")
+        print("Tiempo [ms]: ", f"{Req2[1]:.3f}", "    ||  ", "Memoria [kB]: ", f"{Req2[2]:.3f}")
+        print("\n")
 
     elif int(inputs[0]) == 4:
 
         category = input("Buscando en la categoria: ? ")
+
+        Req3 = controller.getReq3(catalog, category)
+
+        printReq3(Req3[0])
+        print("\n")
+        print("Tiempo [ms]: ", f"{Req3[1]:.3f}", "    ||  ", "Memoria [kB]: ", f"{Req3[2]:.3f}")
+        print("\n")
 
     elif int(inputs[0]) == 5:
 
@@ -129,12 +168,12 @@ while True:
         country = input("Buscando del Pais: ? ")
         tag = input("Buscando el tag: ?")
 
-    elif int(inputs[0]) == 6:
-        number = int(input("Buscando los top: ? "))
-        category_name = input("Buscando en la categoria: ? ")
-
-        PrimeraEntrega = controller.getPrimeraEntrega(catalog, category_name, number)
-        printPrimeraEntrega(PrimeraEntrega)
+        Req4 = controller.getReq4(catalog, country, tag, number)
+        
+        printReq4(Req4[0])
+        print("\n")
+        print("Tiempo [ms]: ", f"{Req4[1]:.3f}", "    ||  ", "Memoria [kB]: ", f"{Req4[2]:.3f}")
+        print("\n")
 
     else:
         sys.exit(0)
