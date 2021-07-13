@@ -126,6 +126,7 @@ while True:
         prueba = loadData(catalog)
         print('Videos cargados: ' + str(prueba[2]))
         printCategoryList(catalog)
+        print('Total de categorias cargadas: '+ str(lt.size(catalog['category_names'])))
         print("Tiempo [ms]: ", f"{prueba[0]:.3f}", "    ||  ", "Memoria [kB]: ", f"{prueba[1]:.3f}")   
 
     elif int(inputs[0]) == 2:
