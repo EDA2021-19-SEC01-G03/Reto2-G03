@@ -72,9 +72,9 @@ def printCategoryList(catalog):
 
 def printReq1(lst):
     for video in lt.iterator(lst):
-        print("trending_date: "+ str(video['trending_date'])+ ' title: '+ str(video['title']) + 
-              ' channel_title: '+ str(video['channel_title'])+ ' publish_time: '+ str(video['publish_time'])
-              + ' views: '+ str(video['views']) + ' likes: ' + str(video['likes'])+ ' dislikes: ' + str(video['dislikes']))
+        print("trending_date: " + str(video['trending_date']) + ' title: ' + str(video['title']) +
+              ' channel_title: ' + str(video['channel_title']) + ' publish_time: ' + str(video['publish_time'])
+              + ' views: ' + str(video['views']) + ' likes: ' + str(video['likes']) + ' dislikes: ' + str(video['dislikes']))
 
 
 def printReq2(video, max):
@@ -84,27 +84,28 @@ def printReq2(video, max):
     ratio = int(video['likes'])/int(video['dislikes'])
     ratio_likes_dislikes = " ratio_likes_dislikes: " + str(ratio)
     dias = " Días: " + str(max)
-    
+
     print(title + channel_title + country + ratio_likes_dislikes + dias)
 
 
-def printReq3(tuple): 
+def printReq3(tuple):
     video = tuple[0]
     days = tuple[1]
 
-    ratio = 0 
-    if video['dislikes'] == 0: 
+    ratio = 0
+    if video['dislikes'] == 0:
         ratio = "No tiene dislikes"
-    else: 
-        ratio = (int(video['likes'])) / (int(video ['dislikes']))
-    print("Title: " + str(video['title']) + ' channel_title: ' + str(video['channel_title']) + ' category_id: ' + str(video['category_id']) + ' ratio_likes_dislikes: ' +  str(ratio) + ' days: ' + str(days)) 
+    else:
+        ratio = (int(video['likes'])) / (int(video['dislikes']))
+    print("Title: " + str(video['title']) + ' channel_title: ' + str(video['channel_title']) + ' category_id: ' + str(video['category_id']) + ' ratio_likes_dislikes: ' + str(ratio) + ' days: ' + str(days))
 
-def printReq4(lst): 
+
+def printReq4(lst):
 
     for video in lt.iterator(lst):
-        print(' title: ' + str(video ['title']) + ' channel_title: ' + str(video['channel_title']) +
-                ' publish_time: ' + str(video['publish_time']) + ' views: ' + str(video['views']) + 
-                ' likes: ' + str(video['likes']) + ' dislikes: ' + str(video['dislikes']) + 
+        print(' title: ' + str(video['title']) + ' channel_title: ' + str(video['channel_title']) +
+                ' publish_time: ' + str(video['publish_time']) + ' views: ' + str(video['views']) +
+                ' likes: ' + str(video['likes']) + ' dislikes: ' + str(video['dislikes']) +
                 'comment_count: ' + str(video['comment_count']) + 'tags: ' + str(video['tags']))
 
 
@@ -126,15 +127,15 @@ while True:
         prueba = loadData(catalog)
         print('Videos cargados: ' + str(prueba[2]))
         printCategoryList(catalog)
-        print('Total de categorias cargadas: '+ str(lt.size(catalog['category_names'])))
-        print("Tiempo [ms]: ", f"{prueba[0]:.3f}", "    ||  ", "Memoria [kB]: ", f"{prueba[1]:.3f}")   
+        print('Total de categorias cargadas: ' + str(lt.size(catalog['category_names'])))
+        print("Tiempo [ms]: ", f"{prueba[0]:.3f}", "    ||  ", "Memoria [kB]: ", f"{prueba[1]:.3f}")
 
     elif int(inputs[0]) == 2:
 
         number = int(input("Buscando los top: ? "))
         country = input("Buscando del Pais: ? ")
         category = input("Buscando en la categoria: ? ")
-        
+
         Req1 = controller.getReq1(catalog, category, country, number)
         printReq1(Req1[0])
         print("\n")
@@ -144,7 +145,7 @@ while True:
     elif int(inputs[0]) == 3:
 
         country = input("Buscando del Pais: ? ")
-        
+
         Req2 = controller.getReq2(catalog, country)
         printReq2(Req2[0][0], Req2[0][1])
         print("\n")
@@ -169,7 +170,7 @@ while True:
         tag = input("Buscando el tag: ?")
 
         Req4 = controller.getReq4(catalog, country, tag, number)
-        
+
         printReq4(Req4[0])
         print("\n")
         print("Tiempo [ms]: ", f"{Req4[1]:.3f}", "    ||  ", "Memoria [kB]: ", f"{Req4[2]:.3f}")
