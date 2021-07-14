@@ -42,24 +42,24 @@ def initCatalog(map, lf):
 
 
 def loadData(catalog):
-    
+
     delta_time = -1.0
     delta_memory = -1.0
-    
+
     tracemalloc.start()
     start_time = getTime()
     start_memory = getMemory()
-    
+
     amount = loadVideos(catalog)
     loadCategory(catalog)
-    
+
     stop_memory = getMemory()
     stop_time = getTime()
     tracemalloc.stop()
-    
+
     delta_time = stop_time - start_time
     delta_memory = deltaMemory(start_memory, stop_memory)
-    
+
     return delta_time, delta_memory, amount
 
 
@@ -67,7 +67,7 @@ def loadVideos(catalog):
 
     videosfile = cf.data_dir + 'Videos/videos-large.csv'
     input_file = csv.DictReader(open(videosfile, encoding='utf-8'))
-    amount = 0 
+    amount = 0
     for video in input_file:
         model.addVideoCategory(catalog, video)
         model.addVideoCountry(catalog, video)
@@ -94,62 +94,62 @@ def loadCategory(catalog):
 
 
 def getReq1(catalog, category_name, country, number):
-    
+
     delta_time = -1.0
     delta_memory = -1.0
-    
+
     tracemalloc.start()
     start_time = getTime()
     start_memory = getMemory()
-    
+
     retorno = model.getReq1(catalog, category_name, country, number)
-    
+
     stop_memory = getMemory()
     stop_time = getTime()
     tracemalloc.stop()
-    
+
     delta_time = stop_time - start_time
     delta_memory = deltaMemory(start_memory, stop_memory)
-    
+
     return retorno, delta_time, delta_memory
 
 
 def getReq2(catalog, country):
-    
+
     delta_time = -1.0
     delta_memory = -1.0
-    
+
     tracemalloc.start()
     start_time = getTime()
     start_memory = getMemory()
-    
+
     retorno = model.getReq2(catalog, country)
-    
+
     stop_memory = getMemory()
     stop_time = getTime()
     tracemalloc.stop()
-    
+
     delta_time = stop_time - start_time
     delta_memory = deltaMemory(start_memory, stop_memory)
-    
+
     return retorno, delta_time, delta_memory
 
 
 def getReq3(catalog, category_name):
-    
+
     delta_time = -1.0
     delta_memory = -1.0
-    
+
     tracemalloc.start()
     start_time = getTime()
     start_memory = getMemory()
-    
+
     retorno = model.getReq3(catalog, category_name)
-    
+
     stop_memory = getMemory()
     stop_time = getTime()
     tracemalloc.stop()
-    
+
     delta_time = stop_time - start_time
     delta_memory = deltaMemory(start_memory, stop_memory)
 
@@ -157,23 +157,23 @@ def getReq3(catalog, category_name):
 
 
 def getReq4(catalog, country, tag, number):
-    
+
     delta_time = -1.0
     delta_memory = -1.0
-    
+
     tracemalloc.start()
     start_time = getTime()
     start_memory = getMemory()
-    
+
     retorno = model.getReq4(catalog, country, tag, number)
-    
+
     stop_memory = getMemory()
     stop_time = getTime()
     tracemalloc.stop()
-    
+
     delta_time = stop_time - start_time
     delta_memory = deltaMemory(start_memory, stop_memory)
-    
+
     return retorno, delta_time, delta_memory
 
 # Funciones para medir tiempo y memoria
